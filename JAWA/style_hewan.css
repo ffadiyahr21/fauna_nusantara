@@ -1,0 +1,21 @@
+body {
+    background-image: url('pngtree-background-of-forest-cartoon-images-picture-image_2774806.jpg');
+    background-size: cover; /* Untuk memastikan gambar memenuhi seluruh layar */
+    background-position: center; /* Menempatkan gambar di tengah */
+    background-repeat: no-repeat; /* Mencegah gambar diulang */
+    background-attachment: fixed;
+}
+
+.title_hewan{
+    padding-top: 20px;
+    color: #347928;
+}
+.isi_hewan{
+    background-color: #D3EE98;
+}
+
+.title_bagian{
+    padding-top: 20px;
+    padding-bottom: 10px;
+    color: #347928;
+}
