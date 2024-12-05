@@ -16,6 +16,8 @@
 
         .camera-container {
             position: relative;
+            width: 640px; /* Sesuaikan dengan ukuran video */
+            height: 480px; /* Sesuaikan dengan ukuran video */
         }
 
         #video {
@@ -35,19 +37,16 @@
     </style>
 </head>
 <body>
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-8">
-            <div class="camera-container">
-                <video id="video" autoplay></video>
-                <model-viewer 
-                    class="overlay-image" 
-                    id="mv-shark" 
-                    src="img/komodo.glb" 
-                    camera-controls  
-                    interaction-prompt="when-focused">
-                </model-viewer>
-            </div>
-        </div>
+    <div class="camera-container">
+        <video id="video" autoplay></video>
+
+        <model-viewer 
+            class="overlay-image" 
+            id="mv-shark" 
+            src="img/komodo.glb" 
+            camera-controls  
+            interaction-prompt="when-focused">
+        </model-viewer>
     </div>
 
     <script>
