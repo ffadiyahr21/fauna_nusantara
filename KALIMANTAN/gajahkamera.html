@@ -52,13 +52,16 @@
                 </model-viewer>
             </div>
         </div>
-        <center><div><button class="btn btn-success" id="switch-camera">Gunakan Kamera Belakang</button></div></center>
+        <center><div>
+            <button class="btn btn-success" id="switch-camera">Alihkan Kamera</button>            
+        </div></center>
     </div>
 
     <script>
         const video = document.getElementById('video');
         const switchCameraButton = document.getElementById('switch-camera');
         let stream;
+        let usingFrontCamera = true; // Kamera default: depan
 
         const modelViewer = document.getElementById('mv-shark');
 
@@ -86,8 +89,11 @@
         }
         
         switchCameraButton.addEventListener('click', () => {
-            startCamera("environment"); // Menggunakan kamera belakang
+            usingFrontCamera = !usingFrontCamera; // Beralih antara kamera depan dan belakang
+            const facingMode = usingFrontCamera ? "user" : "environment";
+            startCamera(facingMode);
         });
+
 
         // Memulai kamera langsung saat halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
