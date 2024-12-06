@@ -24,6 +24,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transform: scaleX(-1);
         }
 
         .overlay-image {
@@ -51,10 +52,12 @@
                 </model-viewer>
             </div>
         </div>
+        <button id="switch-camera">Gunakan Kamera Belakang</button>
     </div>
 
     <script>
         const video = document.getElementById('video');
+        const switchCameraButton = document.getElementById('switch-camera');
         let stream;
 
         const modelViewer = document.getElementById('mv-shark');
@@ -74,6 +77,10 @@
                 console.error('Error accessing the camera: ', error);
             }
         }
+        
+        switchCameraButton.addEventListener('click', () => {
+            startCamera("environment"); // Menggunakan kamera belakang
+        });
 
         // Memulai kamera langsung saat halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
