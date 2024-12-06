@@ -68,10 +68,17 @@
             }
         });
 
-        async function startCamera() {
+        async function startCamera(facingMode = "user") {
+            // Hentikan stream sebelumnya jika ada
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+
             try {
-                // Mengakses kamera
-                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                // Mengakses kamera dengan opsi facingMode
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: facingMode }
+                });
                 video.srcObject = stream;
             } catch (error) {
                 console.error('Error accessing the camera: ', error);
