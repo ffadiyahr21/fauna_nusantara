@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kangguru</title>
+    <link rel="stylesheet" href="style_hewan.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        video {
+            width: 100%;
+            max-width: 100%px;
+            border: 2px solid black;
+        }
+
+        .camera-container {
+            position: relative;
+            width: 100%; /* Sesuaikan dengan ukuran video */
+            height: 100%; /* Sesuaikan dengan ukuran video */
+        }
+
+        .mirrored {
+            transform: scaleX(-1); /* Membalik tampilan horizontal untuk kamera depan */
+        }
+
+        #video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .overlay-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%; /* Sesuaikan dengan ukuran kamera */
+            height: 100%; /* Sesuaikan dengan ukuran kamera */
+            z-index: 10; /* Pastikan elemen berada di atas video */
+        }
+    </style>
+</head>
+<body>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8">
+            <div class="camera-container">
+                <video id="video" autoplay></video>
+        
+                <model-viewer 
+                    class="overlay-image" 
+                    id="mv-shark" 
+                    src="img/kangaroo.glb" 
+                    camera-controls  
+                    interaction-prompt="when-focused">
+                </model-viewer>
+            </div>
+        </div>
+        <center><div>
+            <button class="btn btn-success" id="switch-camera">Alihkan Kamera</button>            
+        </div></center>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const switchCameraButton = document.getElementById('switch-camera');
+        let stream;
+        let usingFrontCamera = true; // Kamera default: depan
+
+        const modelViewer = document.getElementById('mv-shark');
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'r') { // Tombol 'R' untuk reset
+            modelViewer.cameraOrbit = "0deg 75deg 2.5m";
+            }
+        });
+
+        async function startCamera(facingMode = "user") {
+            // Hentikan stream sebelumnya jika ada
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+
+            try {
+                // Mengakses kamera dengan opsi facingMode
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: facingMode }
+                });
+                video.srcObject = stream;
+
+                // Tambahkan atau hapus kelas 'mirrored' berdasarkan facingMode
+                if (facingMode === "user") {
+                    video.classList.add('mirrored'); // Kamera depan
+                } else {
+                    video.classList.remove('mirrored'); // Kamera belakang
+                }
+            } catch (error) {
+                console.error('Error accessing the camera: ', error);
+            }
+        }
+        
+        switchCameraButton.addEventListener('click', () => {
+            usingFrontCamera = !usingFrontCamera; // Beralih antara kamera depan dan belakang
+            const facingMode = usingFrontCamera ? "user" : "environment";
+            startCamera(facingMode);
+        });
+
+
+        // Memulai kamera langsung saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            startCamera();
+        });
+    </script>
+
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</body>
+</html>
